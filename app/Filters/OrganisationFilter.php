@@ -6,10 +6,8 @@ namespace App\Filters;
 
 use App\Organisation;
 
-
 class OrganisationFilter
 {
-
     public static $subscribedEnums = [
         'subbed' => 1,
         'trial' => 0,
@@ -24,7 +22,7 @@ class OrganisationFilter
      */
     public static function subscribed($collection, $value)
     {
-
+        //all is default value (no filter applied)
         return array_key_exists($value, self::$subscribedEnums) ? $collection->where('subscribed', self::$subscribedEnums[$value]) : $collection;
     }
 }
