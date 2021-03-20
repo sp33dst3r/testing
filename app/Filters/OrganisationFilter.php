@@ -22,7 +22,12 @@ class OrganisationFilter
      */
     public static function subscribed($collection, $value)
     {
-        //all is default value (no filter applied)
-        return array_key_exists($value, self::$subscribedEnums) ? $collection->where('subscribed', self::$subscribedEnums[$value]) : $collection;
+        if (array_key_exists($value, self::$subscribedEnums)) {
+            return $collection->where('subscribed', self::$subscribedEnums[$value]);
+        } elseif ($value == 'all') {
+            return $collection;
+        } else {
+            return [];
+        }
     }
 }

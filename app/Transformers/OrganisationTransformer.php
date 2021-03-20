@@ -28,7 +28,7 @@ class OrganisationTransformer extends TransformerAbstract
         return [
             'id' => $organisation->id,
             'name' => $organisation->name,
-            'trial_end' => $organisation->trial_end->getTimeStamp(),
+            'trial_end' => $organisation->trial_end ? $organisation->trial_end->getTimeStamp() : null,
             'subscribed' => $organisation->subscribed,
             'owner_id' => $organisation->owner_user_id,
         ];
