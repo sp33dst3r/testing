@@ -36,7 +36,7 @@ class OrganisationService
     /**
      * @param array $filter
      *
-     * @return Organisation
+     * @return Collection<Organisation>
      */
     public function list($filter)
     {
