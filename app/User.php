@@ -41,7 +41,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * @return Organisations
+     * @return HasMany
      */
     public function companies()
     {

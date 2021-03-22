@@ -80,8 +80,10 @@ class ApiController extends Controller
      *
      * @return ApiController
      */
-    public function appendBody(string $key, $data, $mainObject = false): self
+    public function appendBody(string $key, $data, $mainObject = false, $message = 'done!', $status = true): self
     {
+        $this->body["status"] = $status;
+        $this->body["message"] = $message;
         if ($mainObject) {
             $this->body[$key] = $data;
             return $this;
@@ -98,7 +100,7 @@ class ApiController extends Controller
      */
     public function appendError(string $message): self
     {
-        return $this->appendBody('error', $message)
+        return $this->appendBody('error', $message, false, "failed", false)
                     ->setStatusCode(Response::HTTP_FORBIDDEN);
     }
 
@@ -117,7 +119,7 @@ class ApiController extends Controller
             ->parseIncludes(Arr::wrap($includes))
             ->toArray();
 
-        $this->appendBody($key, $item);
+        $this->appendBody($key, $item, false, "Organisation inserted!");
 
         return $this;
     }
@@ -137,7 +139,7 @@ class ApiController extends Controller
             ->parseIncludes(Arr::wrap($includes))
             ->toArray();
 
-        $this->appendBody($key, $collection);
+        $this->appendBody($key, $collection, false, "Organisation List");
 
         return $this;
     }
@@ -158,8 +160,6 @@ class ApiController extends Controller
         $class = '\\App\\Transformers\\';
 
         $class = $class . ucfirst($this->request->get('_controller')) . 'Transformer';
-
-        $class = new $class();
 
         return new $class();
     }

@@ -52,4 +52,26 @@ class Organisation extends Model
     {
         return $this->belongsTo(User::class, "owner_user_id");
     }
+
+    /**
+     * Scope a query to only trial organisations.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeTrial($query)
+    {
+        return $query->where('subscribed', 0);
+    }
+
+    /**
+     * Scope a query to only subscribed organisations.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSubbed($query)
+    {
+        return $query->where('subscribed', 1);
+    }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Filters\OrganisationFilter;
 use App\Organisation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +14,11 @@ use Illuminate\Support\Facades\Auth;
  */
 class OrganisationService
 {
+
+    public static $subscribedEnums = [
+        'subbed' => 1,
+        'trial' => 0,
+    ];
 
     /**
      * @param array $attributes
@@ -36,12 +40,15 @@ class OrganisationService
      */
     public function list($filter)
     {
-        $organisations = Organisation::all();
-
         if (isset($filter['subscribed'])) {
-            return OrganisationFilter::subscribed($organisations, $filter['subscribed']);
+            if (array_key_exists($filter['subscribed'], self::$subscribedEnums)) {
+               return Organisation::{$filter['subscribed']}()->get();
+            }
+            elseif($filter['subscribed'] == 'all'){
+                return Organisation::all();
+            }
+            return [];
         }
-
-        return $organisations;
+       return Organisation::all();
     }
 }
